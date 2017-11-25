@@ -1,11 +1,13 @@
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid bg-warning">
   <div class="container">
     <h1 class="display-3">Newscrapper</h1>
     <p>For some of the latest articles from the NY Times</p>
-    <a href="/scrape" class="btn">I scrape new articles</a>
-    <a href="/saved" class="btn">See Saved Articles</a>
+    <a href="/scrape" class="btn btn-primary">I scrape new articles</a>
+    <a href="/saved" class="btn btn-success">See Saved Articles</a>
   </div>
 </div>
 <main class="container-fluid" id="linkspace">
-  //each article as a partial
+  {{#each articles}}
+    {{> article}}
+  {{/each}}
 </main>

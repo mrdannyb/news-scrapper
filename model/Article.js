@@ -13,6 +13,11 @@ const ArticleSchema = new Schema ({
     type: String,
     required: true
   },
+  saved: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
   url: {
     type: String,
     required: true,

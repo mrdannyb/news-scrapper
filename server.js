@@ -14,7 +14,7 @@ mongoose.Promise = Promise;
 mongoose.connect(mongodb_uri, { useMongoClient: true });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended:true })); //not sure what the difference is
+app.use(bodyParser.urlencoded({ extended:false })); //not sure what the difference is
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
@@ -30,20 +30,3 @@ app.use('/',routes);
 app.listen(port, function () {
  console.log("You're tuning into server radio, port: " + port);
 });
-
-// request('https://www.nytimes.com/', function (error, response, html) {
-//   if (!error && response.statusCode == 200) {
-//     const $ = cheerio.load(html);
-//     $('h2.story-heading').each(function (i, elem) {
-//       let art = $(this).children('a');
-//       let data = {
-//         title: art.html(),
-//         url: art.attr('href')
-//       }
-//       console.log(data);
-//       console.log(art.html());
-//       console.log(art.attr('href'));
-//       console.log('++++++++++++++++++++');
-//     });
-//   }
-// });
