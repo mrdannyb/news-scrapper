@@ -8,6 +8,7 @@ let router = express.Router();
 router.get('/', function (req,res) {
   db.Article
     .find({})
+    .populate('comments')
     .then(function (data) {
       res.render('home', {articles: data})
     }).catch(function (err) {
