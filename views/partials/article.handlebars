@@ -1,13 +1,15 @@
-<div class="card">
+<div class="card" id="art-{{_id}}">
   <div class="card-header article-title text-white bg-info">
     <h3 class="card-title" id="art-title-{{_id}}">{{headline}}</h3>
     {{#if saved}}
-    <a href="/save/{{_id}}" class="btn btn-warning">Save this Article</a>
+    <a href="/save/{{_id}}" class="btn btn-warning">Forget this Article</a>
     {{else}}
-    <a href="/forget/{{_id}}" class="btn btn-warning">Forget this Article</a>
+    <a href="/forget/{{_id}}" class="btn btn-warning">Save this Article</a>
     {{/if}}
   </div>
   <div class="card-body article-summary">
-    <p class="card-text" id="art-sum-{{_id}}">{{summary}}</p>
+    <p class="card-text">{{summary}}</p>
+    <button type="button" name="add-comment-toggle" class="add-comment-toggle" data-id="{{_id}}" id="comment-form-toggle">Add comment</button>
   </div>
+  
 </div>

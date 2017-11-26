@@ -62,16 +62,23 @@ router.post('/save/:id',function (req,res) {
 });
 
 router.post('/addComment/:id',function (req,res) {
-  //use mongoose to add the comment (req.body.comment)
-  //we will make
-  res.json(data)
+  db.Comment.create({"body": req.body.body})
+  .then(function (dbComment) {
+    return db.Article.findOneAndUpdate({_id: req.params.id}, { $push: { comments: dbComment._id } }, { new: true });
+  })
+  .then(function (dbArticle) {
+    res.json(dbArticle);
+  })
+  .catch(function (error) {
+    res.json(error);
+  });
 });
 
 router.delete('/delComment/:artID/:comID', function (req,res) {
   res.json(data)
 });
 
-router.delete('/delete/:id', function (req,res) {
+router.delete('/forget/:id', function (req,res) {
   res.json(data)
 });
 
