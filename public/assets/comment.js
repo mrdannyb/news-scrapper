@@ -19,8 +19,30 @@ $(document).ready(function () {
         body: $('#add-comment').val().trim()
       }
     }).done(function (data) {
-        console.log(data);
-        $('#add-comment').val('');
+        location.reload()
+
+    });
+  });
+
+  $(document).on('click','.show-comment-toggle', function (event) {
+    event.preventDefault();
+
+    const id = $(this).attr('data-id');
+    $("#comment-" + id).toggle('fast');
+  });
+
+  $(document).on('click','.badge', function (event) {
+    event.preventDefault();
+
+    const commentID = $(this).attr('data-id');
+    const articleID = $(this).parent().parent().parent().attr('id').substring(8);
+
+    $.ajax({
+      method: 'POST',
+      url: '/delComment/' + articleID + '/' + commentID
+    }).done(function (data) {
+      console.log('forgotten');
+      $('#' + commentID).hide('fast')
     });
   });
 });

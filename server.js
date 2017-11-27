@@ -10,8 +10,11 @@ const port = process.env.PORT || 8080;
 
 const mongodb_uri = process.env.mongodb_uri || 'mongodb://localhost/newscrap';
 
+//MONGODB_URI: mongodb://heroku_7q2xxbx7:6v48rq989jb78ago9t2bftfn3b@ds121696.mlab.com:21696/heroku_7q2xxbx7
+
 mongoose.Promise = Promise;
 mongoose.connect(mongodb_uri, { useMongoClient: true });
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:false })); //not sure what the difference is

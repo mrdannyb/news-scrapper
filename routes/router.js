@@ -6,14 +6,23 @@ const db = require("../model");
 let router = express.Router();
 
 router.get('/', function (req,res) {
-  db.Article
-    .find({})
+  db.Article.find({})
     .populate('comments')
     .then(function (data) {
       res.render('home', {articles: data})
     }).catch(function (err) {
       if (err) throw err;
     })
+});
+
+router.get('/saved', function (req,res) {
+  db.Article.find({ saved: true })
+    .populate('comments')
+    .then(function (data) {
+      res.render('home', { articles:data });
+    }).catch(function (err) {
+      if (err) throw err;
+    });
 });
 
 router.get('/scrape', function (req,res) {
@@ -32,13 +41,12 @@ router.get('/scrape', function (req,res) {
           db.Article
             .update(data,data, { upsert:true })
             .then(function (articles) {
-              res.send("Scrape Complete");
+              res.send();
             })
             .catch(function (err) {
-              res.json(err);
+              console.log(err);
+              res.send();
             });
-          console.log(data);
-          console.log('++++++++++++++++++++');
         } else {
           return false;
         };
@@ -48,19 +56,32 @@ router.get('/scrape', function (req,res) {
   });
 });
 
-router.get('/saved', function (req,res) {
-  db.Article
-    .find({
-      saved: true
-    })
-    .then(function (articles) {
-      res.json(articles);
-    });
-});
 
 router.post('/save/:id',function (req,res) {
-  res.json(data)
+  console.log('asking db to save');
+  db.Article.findByIdAndUpdate(
+    { _id:req.params.id }
+    ,{ $set: { saved:true }})
+  .then(function (dbArticle) {
+      res.json(dbArticle);
+  }).catch(function (err) {
+    console.log(err);
+  });
 });
+
+router.post('/forget/:id', function (req,res) {
+  console.log('asking db to forget');
+  db.Article.update(
+    { _id:req.params.id }
+    ,{ $set: { saved:false }})
+  .then(function (dbArticle) {
+        res.json(dbArticle);
+  })
+  .catch(function (err) {
+      console.log(err);
+  });
+});
+
 
 router.post('/addComment/:id',function (req,res) {
   db.Comment.create({"body": req.body.body})
@@ -75,12 +96,23 @@ router.post('/addComment/:id',function (req,res) {
   });
 });
 
-router.delete('/delComment/:artID/:comID', function (req,res) {
-  res.json(data)
+router.post('/delComment/:artID/:comID', function (req,res) {
+  console.log('forgetting comment');
+  db.Comment.remove({
+    _id: req.params.comID
+  })
+  .then(function (dbArticle) {
+    console.log('updating article');
+    db.Article.update({ _id:req.params.artID }
+      ,{ $unset: { note:'' } }
+      ,function (err) {
+        console.log(err);
+        res.send('What comment?');
+      });
+  });
+
+
 });
 
-router.delete('/forget/:id', function (req,res) {
-  res.json(data)
-});
 
 module.exports = router;

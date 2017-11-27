@@ -2,19 +2,21 @@
   <div class="card-header article-title text-white bg-info">
     <h3 class="card-title" id="art-title-{{_id}}">{{headline}}</h3>
     {{#if saved}}
-    <a href="/save/{{_id}}" class="btn btn-warning">Forget this Article</a>
+    <button type="button" name="Unsave article" class="btn btn-secondary forgetter" data-id="{{_id}}">Forget this Article</button>
     {{else}}
-    <a href="/forget/{{_id}}" class="btn btn-warning">Save this Article</a>
+    <button type="button" name="Save article" class="btn btn-warning saver" data-id="{{_id}}">Save this Article</button>
     {{/if}}
+    <a href="#" class="btn btn-primary show-comment-toggle" data-id="{{_id}}">Check the comments</a>
   </div>
 
   <div class="card-body article-summary">
     <p class="card-text">{{summary}}</p>
-    <div class="comment-space">
+    <div class="comment-space toggle-target" id="comment-{{_id}}" style="display:none">
       <ul class="list-group">
         {{#each comments}}
-          <li class="list-group-item">
-            {{body}}
+          <li class="list-group-item d-flex justify-content-between" id="{{_id}}">
+            <p class="card-text">{{body}}</p>
+            <a href="#" data-id="{{_id}}" class="badge badge-danger card-text">Forget comment</a>
           </li>
         {{/each}}
       </ul>
