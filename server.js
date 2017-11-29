@@ -8,9 +8,10 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 8080;
 
-const mongodb_uri = process.env.mongodb_uri || 'mongodb://localhost/newscrap';
+const mongodb_uri = process.env.MONGODB_URI || 'mongodb://localhost/newscrap';
 
 //MONGODB_URI: mongodb://heroku_7q2xxbx7:6v48rq989jb78ago9t2bftfn3b@ds121696.mlab.com:21696/heroku_7q2xxbx7
+// mongodb://heroku_7q2xxbx7:6v48rq989jb78ago9t2bftfn3b@ds121696.mlab.com:21696/heroku_7q2xxbx7
 
 mongoose.Promise = Promise;
 mongoose.connect(mongodb_uri, { useMongoClient: true });
